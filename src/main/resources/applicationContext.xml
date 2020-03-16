@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+ http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>property.properties</value>
+    </property>
+    </bean>
+    <bean id="e" class="com.model.Employee">
+        <constructor-arg name="name" value="${name}"></constructor-arg>
+        <constructor-arg name="age" value="${age}" type="int"></constructor-arg>
+        <constructor-arg name="salary" value="${salary}" type="double"></constructor-arg>
+        <constructor-arg name="department" ><ref bean="d"/></constructor-arg>
+        <constructor-arg name="task">
+            <list>
+                <value>He work on JAVA.</value>
+                <value>He work on SQL.</value>
+                <value>He work on angular.</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+<!--    <bean id="dateFormater" class="java.text.SimpleDateFormat">-->
+<!--        <constructor-arg value="dd/MM/yyyy" />-->
+<!--    </bean>-->
+
+    <bean id="format" class="com.model.DateFormat" factory-method="getDate">
+        <constructor-arg name="date" value = "10-01-1997"></constructor-arg>
+        <constructor-arg name="datePattern" value = "dd-MM-yyyy"></constructor-arg>
+    </bean>
+
+    <bean id="d" class="com.model.Department" init-method="init" destroy-method="destroy">
+        <constructor-arg name="departmentName" value="SCSIT"></constructor-arg>
+        <constructor-arg>
+            <ref bean="format"/>
+        </constructor-arg>
+    </bean>
+
+</beans>
